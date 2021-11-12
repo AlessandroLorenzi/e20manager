@@ -17,3 +17,5 @@ Wait a few seconds to let mysql start and you can run sql migratinons and add so
 docker-compose exec mysql sh -c 'cat /sql/migrations/*.sql | mysql e20'
 docker-compose exec mysql sh -c 'cat /sql/samples/*.sql | mysql e20'
 ```
+
+Than you can browse the events on [http://localhost:8080/events/]
