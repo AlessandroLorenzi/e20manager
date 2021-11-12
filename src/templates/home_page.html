@@ -1,0 +1,37 @@
+{% extends "public.html" %}
+{% block content %}
+<div class="container">
+    <h1>Future Events</h1>
+    <div class="row">
+        {% for event in events %}
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ event.cover_image }}?auto=compress&cs=tinysrgb&dpr=1&w=200" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text">{{ event.start_time | date("d/m/Y") }}</p>
+                    <a href="/events/{{ event.event_id }}/" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Past Events</h2>
+    <div class="row">
+
+        {% for event in past_events %}
+        <div class="col-3">
+
+            <div class="card" style="width: 18rem;">
+                <img src="{{ event.cover_image }}?auto=compress&cs=tinysrgb&dpr=1&w=200" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text">{{ event.start_time | date("d/m/Y") }}</p>
+                    <a href="/events/{{ event.event_id }}/" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock %}

@@ -1,0 +1,23 @@
+{% extends "backoffice/backoffice.html" %}
+{% block content %}
+
+<h1>New Event</h1>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input class="form-control" type="text" name="title" placeholder="Title" />
+        <label for="cover_image">Cover Image</label>
+        <input class="form-control" type="text" name="cover_image" placeholder="Cover image" />
+        <label for="start_time">Start event</label>
+        <input class="form-control" type="text" name="start_time"
+            placeholder="Start event - day/monty/year hour:minute" />
+        <label for="end_time">End event</label>
+        <input class="form-control" type="text" name="end_time" placeholder="End event - day/monty/year hour:minute" />
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" placeholder="Description"></textarea>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+
+{% endblock %}

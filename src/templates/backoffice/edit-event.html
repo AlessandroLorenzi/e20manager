@@ -1,0 +1,58 @@
+{% extends "backoffice/backoffice.html" %}
+{% block content %}
+
+<h1>Edit: {{ event.title }}</h1>
+
+<form method="POST">
+    <div class="form-group">
+
+        <label for="title">Id</label>
+        <input class="form-control" type="text" name="event_id" value="{{ event.event_id }}" disabled />
+        <label for="title">Title</label>
+        <input class="form-control" type="text" name="title" placeholder="Title" value="{{ event.title }}" />
+        <label for="title">Cover Image</label>
+        <input class="form-control" type="text" name="cover_image" placeholder="Cover image"
+            value="{{ event.cover_image }}" />
+        <label for="title">Start event</label>
+        <input class="form-control" type="text" name="start_time" placeholder="Start event - day/monty/year hour:minute"
+            value='{{ event.start_time | date("d/m/Y H:i") }}' />
+        <label for="title">End event</label>
+        <input class="form-control" type="text" name="end_time" placeholder="End event - day/monty/year hour:minute"
+            value='{{ event.end_time | date("d/m/Y H:i") }}' />
+        <label for="title">Description</label>
+        <textarea class="form-control" id="description" name="description"
+            placeholder="Description">{{ event.description }}</textarea>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+
+<div class="modal fade" id="eventUpdatedModal" tabindex="-1" aria-labelledby="eventUpdatedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventUpdatedModalLabel">Event updated</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="$('#eventUpdatedModal').modal('hide');" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                The event <strong>{{ event.title }}</strong> has been updated!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="$('#eventUpdatedModal').modal('hide');">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    if (params["saved"] === "") {
+        $('#eventUpdatedModal').modal().show();
+    }
+</script>
+
+{% endblock %}

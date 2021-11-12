@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+    e20:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+        working_dir: /var/www
+        command: php -S 0.0.0.0:8080 -t .
+        volumes:
+            - ./src:/var/www:z
+        links:
+            - mysql
+        environment:
+            MYSQL_USER: "e20"
+            MYSQL_PASSWORD: "e20"
+            MYSQL_DATABASE: "e20"
+            MYSQL_HOST: "mysql"
+    nginx:
+        build: docker/nginx
+        ports:
+            - 8080:8080
+        links:
+            - e20
+        volumes:
+          - ./static-sidebar/dist:/static/static:z
+    mysql:
+        image: mysql
+        environment:
+            MYSQL_USER: "e20"
+            MYSQL_PASSWORD: "e20"
+            MYSQL_DATABASE: "e20"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+        volumes:
+            - ./sql:/sql:z
+    composer:
+        image: composer
+        volumes:
+            - ./src:/app:z

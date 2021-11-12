@@ -1,0 +1,79 @@
+{% extends "backoffice/backoffice.html" %}
+{% block content %}
+
+<h1>Events</h1>
+
+<a class="btn btn-info" href="/events/manage/new/">New Event</a>
+
+<table class="table table-hover">
+    <thead>
+        <th>Title</th>
+        <th>Start Date</th>
+        <th>End date</th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for event in events %}
+        <tr class="table-success">
+            <td>{{ event.title }}</td>
+            <td>{{ event.start_time | date("d/m/Y H:i") }}</td>
+            <td>{{ event.end_time | date("d/m/Y H:i") }}</td>
+            <td><a href="event/{{event.event_id}}/edit/">Edit</a></td>
+            <td><a href="#" onClick="deleteEvent({{event.event_id}})">Delete</a></td>
+        </tr>
+        {% endfor %}
+        {% for event in past_events %}
+        <tr class="table-danger">
+            <td>{{ event.title }}</td>
+            <td>{{ event.start_time | date("d/m/Y H:i") }}</td>
+            <td>{{ event.end_time | date("d/m/Y H:i") }}</td>
+            <td><a href="event/{{event.event_id}}/edit/">Edit</a></td>
+            <td><a href="#" onClick="deleteEvent({{event.event_id}})">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<div class="modal fade" id="eventDeletedModal" tabindex="-1" aria-labelledby="eventDeletedModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventDeletedModalLabel">Event deleted</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    onclick="closeEventDeletedModal()"></button>
+            </div>
+            <div class="modal-body">
+                The event has been deleted!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                    onclick="closeEventDeletedModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function deleteEvent(event_id) {
+        let delete_url = "/events/manage/event/" + event_id + "/delete/";
+        fetch(delete_url, { method: "DELETE" })
+            .then(response => {
+                $('#eventDeletedModal').modal('show');
+            });
+    }
+
+    function closeEventDeletedModal() {
+        $('#eventDeletedModal').modal('hide');
+    }
+    
+    $("#eventDeletedModal").on('hidden.bs.modal', function () {
+        window.location.reload(true);
+    });
+</script>
+{% endblock %}
