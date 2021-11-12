@@ -6,7 +6,7 @@ services:
             context: .
             dockerfile: docker/php/Dockerfile
         working_dir: /var/www
-        command: php -S 0.0.0.0:8080 -t .
+        command: php -S 0.0.0.0:8081 -t .
         volumes:
             - ./src:/var/www:z
         links:
@@ -25,7 +25,7 @@ services:
         volumes:
           - ./static-sidebar/dist:/static/static:z
     mysql:
-        image: mysql
+        image: docker.io/library/mysql:latest
         environment:
             MYSQL_USER: "e20"
             MYSQL_PASSWORD: "e20"
@@ -34,6 +34,6 @@ services:
         volumes:
             - ./sql:/sql:z
     composer:
-        image: composer
+        image: docker.io/library/composer:latest
         volumes:
             - ./src:/app:z
