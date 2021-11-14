@@ -27,9 +27,6 @@ class EventSQLStorage
     
     function get_all_events(): iterable
     {
-        
-
-        $now = date("U");
         $rows = $this->db->query(
             "SELECT 
                 event_id, title, start_time, end_time, description, cover_image 

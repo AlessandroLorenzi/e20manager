@@ -1,7 +1,9 @@
 <?php
 include_once("entities/event.php");
+include_once("entities/ticket.php");
 
 require_once("storage/sql/event_sql_storage.php");
+require_once("storage/sql/ticket_sql_storage.php");
 
 include_once("platform/mysql.php");
 
@@ -31,9 +33,11 @@ use Platform\MySQL;
 $conn = MySQL::connect();
 
 // Event Storage
-use Storage\SQL\EventSQLStorage as EventStorage;
+use Storage\SQL\EventSQLStorage;
+use Storage\SQL\TicketSQLStorage;
 
-$event_storage = new EventStorage($conn);
+$event_storage = new EventSQLStorage($conn);
+$ticket_storage = new TicketSQLStorage($conn);
 
 // Templates
 
@@ -48,7 +52,7 @@ try {
         $_SERVER["REQUEST_URI"] == "/events/" &&
         $_SERVER["REQUEST_METHOD"] == "GET"
     ) {
-        $eventView = new Views\PublicSite($event_storage, $twig, $logger);
+        $eventView = new Views\PublicSite($event_storage, $ticket_storage, $twig, $logger);
         $eventView->incoming_events();
         exit(0);
     }
@@ -57,7 +61,7 @@ try {
         preg_match("/\/events\/([0-9]+)\//", $_SERVER["REQUEST_URI"], $matches) &&
         $_SERVER["REQUEST_METHOD"] == "GET"
     ) {
-        $eventView = new Views\PublicSite($event_storage, $twig, $logger);
+        $eventView = new Views\PublicSite($event_storage, $ticket_storage, $twig, $logger);
         $eventView->event($matches[1]);
         exit(0);
     }
@@ -115,7 +119,6 @@ try {
         $backofficeView->delete_event($matches[1]);
         exit(0);
     }
-
 } catch (Exception $e) {
     new Views\Error500($twig, $logger, $e);
     exit(1);

@@ -29,8 +29,39 @@
     <p>
         {{event.description}}
     </p>
+    {% if tickets|length > 0 %}
+    <h2>Tickets available</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="row"></th>
+                <td scope="row">Price</td>
+                <td scope="row">Max seats</td>
+                <td scope="row">Seats Available</td>
+                <td scope="row"></td>
+            </tr>
+        </thead>
+        {% for ticket in tickets %}
+        <tr>
+            <th scope="row"> {{ ticket.name }} </th>
+            <td>
+                {% if ticket.price == 0 %}
+                <em>free</em>
+                {% else %}
+                {{ ticket.price }} {{ ticket.currency }}
+                {% endif %}
+            </td>
+            <td> {{ ticket.max_tickets }} </td>
+            <td> 000 </td>
+            <td> <button class="btn btn-primary" href="#">Buy</button> </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
     <p>
         <a href="/events/" class="btn btn-primary">Back to Events</a>
     </p>
+
 </div>
 {% endblock %}
