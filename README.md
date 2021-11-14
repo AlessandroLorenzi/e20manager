@@ -11,6 +11,12 @@ docker-compose build
 docker-compose up -d
 ```
 
+Install dependencies
+
+```bash
+docker-compose run composer install
+```
+
 Wait a few seconds to let mysql start and you can run sql migratinons and add some sample data
 
 ```bash
